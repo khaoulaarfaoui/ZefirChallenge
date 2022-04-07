@@ -16,13 +16,20 @@ export class BusinessDataResolver {
     @Args("finalOfferPrice", { type: () => GraphQLFloat })
     finalOfferPrice: number,
     @Args("targetSalePrice", { type: () => GraphQLFloat })
-    targetSalePrice: number
+    targetSalePrice: number,
+    @Args("negociationMargin", { type: () => GraphQLFloat })
+    negociationMargin: number,
+    @Args("serviceFees", { type: () => GraphQLFloat })
+    serviceFees: number
+
   ): Promise<GQLBusinessData> {
     return this.businessDataService.generateBusinessDataForHome(
       homeUuid,
       initialOfferPrice,
       finalOfferPrice,
-      targetSalePrice
+      targetSalePrice,
+      negociationMargin,
+      serviceFees
     );
   }
 
