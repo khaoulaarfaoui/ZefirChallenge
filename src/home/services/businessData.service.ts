@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { DeepPartial } from "typeorm";
 import { BusinessData } from "../entities/businessData.entity";
 import BusinessDataCustomRepository from "../repositories/businessData.custom.repository";
+import { computeNegotiationMargin, computeServiceFees } from "./computation.service";
 import HomeService from "./home.service";
 
 @Injectable()
@@ -22,8 +23,8 @@ export default class BusinessDataService {
     serviceFees:number,
   ): Promise<BusinessData> {
     const zipcode=(await this.homeService.findHome(homeUuid)).zipcode;
-    negociationMargin=this.computeNegotiationMargin(targetSalePrice,finalOfferPrice);
-    serviceFees=this.computeServiceFees(finalOfferPrice, zipcode);
+    negociationMargin=computeNegotiationMargin(targetSalePrice,finalOfferPrice);
+    serviceFees=computeServiceFees(finalOfferPrice, zipcode);
     const businessData = await this.createBusinessData({
       homeUuid,
       initialOfferPrice,
@@ -38,48 +39,7 @@ export default class BusinessDataService {
     return businessData;
   }
 
-   computeNegotiationMargin(targetSalePrice: number, finalOfferPrice: number,maxNegociationMargin=0.07){
-     return Math.min((targetSalePrice/finalOfferPrice)-1 ,maxNegociationMargin)
-   }
-    
-    computeServiceFees(finalOfferPrice:number, zipCode:string){
-   if(finalOfferPrice<0) throw Error('Price cannot be negative');
-     const depCode = zipCode.substring(0,2);
-      if (depCode === '59') {
-       return this.computeLilleServiceFees(finalOfferPrice);
-      }
-      else if(['75','92','93','94'].includes(depCode)) {
-      return this.computeParisServiceFees(finalOfferPrice);
-      }
-      else if (['44','69'].includes(depCode) ) {
-      return this.computeNantesServiceFees(finalOfferPrice);
-      }
-      else throw new Error('Departement code is not supported');
-  }
-   computeLilleServiceFees(finalOfferPrice: number):number{ 
-    if(finalOfferPrice<100000) return 15000;
-    if(finalOfferPrice<145000) return 19000;
-    if(finalOfferPrice<200000) return 20000;
-    if(finalOfferPrice<400000) return finalOfferPrice*0.1;
-    if(finalOfferPrice<650000) return finalOfferPrice*0.08;
-    return  finalOfferPrice*0.3;
-  }
-   computeParisServiceFees(finalOfferPrice: number):number{ 
-       if(finalOfferPrice<100000) return 20000;
-       if(finalOfferPrice<145000) return 22000;
-       if(finalOfferPrice<200000) return 23000;
-       if(finalOfferPrice<400000) return finalOfferPrice*0.11;
-       if(finalOfferPrice<650000) return finalOfferPrice*0.08;
-        return  finalOfferPrice*0.1;
-  }
-    computeNantesServiceFees(finalOfferPrice: number):number {
-     if(finalOfferPrice<100000)  return 20000;
-     if(finalOfferPrice<145000)  return 22000;
-     if(finalOfferPrice<200000) return 23000;
-     if(finalOfferPrice<400000) return finalOfferPrice*0.11;
-     if(finalOfferPrice<650000) return finalOfferPrice*0.08;
-     return  finalOfferPrice*0.099;
-  }
+  
 
   async findBusinessDataByHomeUuid(homeUuid: string): Promise<BusinessData> {
     const results = await this.businessDataRepository.find({ homeUuid });

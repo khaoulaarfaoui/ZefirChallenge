@@ -40,4 +40,6 @@ export class BusinessDataResolver {
   ): Promise<GQLBusinessData> {
     return this.businessDataService.findBusinessDataByHomeUuid(homeUuid);
   }
+
+ 
 }
