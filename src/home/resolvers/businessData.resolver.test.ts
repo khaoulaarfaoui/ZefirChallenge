@@ -7,14 +7,24 @@ describe("Business Data test", () => {
     fixtures = await createTestConf();
   });
 
+
+  describe("generate Business Data", () => {
+    it("can generate business data", async () => {
+      const businessData = await fixtures.businessDataResolver.generateBusinessDataForHome(
+        "88a3eb8c-fdf3-4c70-b2c7-b33437218bf2",250000,200000,230000,200000,15000
+      );
+      expect(businessData.initialOfferPrice).toBe(250000);
+      expect(businessData.finalOfferPrice).toBe(200000);
+    });
+  });
+
+
+
   describe("find Business Data", () => {
     it("can find business data based on home", async () => {
-      const businessData = await fixtures.businessDataResolver.getBusinessDataFromHomeUuid('');
+      const businessData = await fixtures.businessDataResolver.getBusinessDataFromHomeUuid('88a3eb8c-fdf3-4c70-b2c7-b33437218bf2');
+      expect(businessData.initialOfferPrice).toBe(250000);
       expect(businessData.finalOfferPrice).toBe(200000);
-      expect(businessData.initialOfferPrice).toBe(170000);
-      expect(businessData.targetSalePrice).toBe(180000);
-      expect(businessData.serviceFees).toBe(13000);
-      expect(businessData.negociationMargin).toBe(3000);
     });
   });
   

@@ -9,7 +9,7 @@ export const appFactory = (
   return {
     imports: [
       ConfigModule.forRoot({ ...cfgOpts, isGlobal: true }),
-      TypeOrmModule.forRoot(),
+      TypeOrmModule.forRoot({keepConnectionAlive:true}),
       HomeModule,
     ],
   };
