@@ -1,7 +1,7 @@
 import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GraphQLFloat } from "graphql";
-import { GQLBusinessData } from "../models/businessData.model";
-import BusinessDataService from "../services/businessData.service";
+import BusinessDataService from "src/home/services/businessData.service";
+import { GQLBusinessData } from "../../business/models/businessData.model";
 
 @Resolver(() => GQLBusinessData)
 export class BusinessDataResolver {

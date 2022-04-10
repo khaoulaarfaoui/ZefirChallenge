@@ -1,4 +1,4 @@
-import {computeServiceFees, computeNegotiationMargin} from '../home/services/computation.service'
+import { computeNegotiationMargin,computeServiceFees } from "../services/computation.service";
 
 
   it('compute Negotiation Margin', () => {

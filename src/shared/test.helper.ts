@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { appFactory } from "src/app.module";
-import { BusinessDataResolver } from "src/home/resolvers/businessData.resolver";
 import { HomeResolver } from "src/home/resolvers/home.resolver";
-import { UserResolver } from "src/home/resolvers/user.resolver";
-import BusinessDataService from "src/home/services/businessData.service";
+import { UserResolver } from "src/user/resolvers/user.resolver";
+import BusinessDataService from "src/business/services/businessData.service";
 import HomeService from "src/home/services/home.service";
-import UserService from "src/home/services/user.service";
+import UserService from "src/user/services/user.service";
+import { BusinessDataResolver } from "src/business/resolvers/businessData.resolver";
 
 export class Fixtures {
   homeResolver: HomeResolver;

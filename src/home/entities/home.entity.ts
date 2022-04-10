@@ -1,6 +1,6 @@
 import { IdentifiableEntity } from "src/shared/identifiable.entity";
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
-import { BusinessData } from "./businessData.entity";
+import { BusinessData } from "../../business/entities/businessData.entity";
 
 @Entity("home")
 export class Home extends IdentifiableEntity {
