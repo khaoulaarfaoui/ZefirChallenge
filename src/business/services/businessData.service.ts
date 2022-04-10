@@ -4,7 +4,7 @@ import { DeepPartial } from "typeorm";
 import { BusinessData } from "../entities/businessData.entity";
 import BusinessDataCustomRepository from "../repositories/businessData.custom.repository";
 import { computeNegotiationMargin, computeServiceFees } from "./computation.service";
-import HomeService from "./home.service";
+import HomeService from "../../home/services/home.service";
 
 @Injectable()
 export default class BusinessDataService {
